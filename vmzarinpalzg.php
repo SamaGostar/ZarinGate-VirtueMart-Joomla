@@ -142,14 +142,16 @@ include_once('nusoap.php');
 	
 	
 	));
-
-	$html .= "<form name='vm_zarin_form' Method='post' Action='https://www.zarinpal.com/pg/StartPay/' . $res->Authority . '/ZarinGate'";
-
-    $html .= "</form>";
-
-	$html.= ' <script type="text/javascript">';
-	$html.= ' document.vm_zarin_form.submit();';
-	$html.= ' </script>';
+	
+	if($res->Status == 100){
+		$html .= "<form name='vm_zarin_form' Method='post' Action='https://www.zarinpal.com/pg/StartPay/' . $res->Authority . '/ZarinGate'";
+		$html .= "</form>";
+		$html.= ' <script type="text/javascript">';
+		$html.= ' document.vm_zarin_form.submit();';
+		$html.= ' </script>';
+	}else{
+		echo 'ERR:'.$res->Status ;
+	}
 
 
 
@@ -231,7 +233,7 @@ $ons = $_GET['on'];
 	 // $status = 0 ;   // default status
       
       
-	  $status = $res->status;
+	  $status = $res->Status;
 
 	  if ($status == 100) {
 	   $dbcoupon = JFactory::getDBO();  
@@ -298,7 +300,7 @@ $mm=$dbcccow->email;
 	   // this is a UNsucccessfull payment
 	   // we update our DataBase
 
-	    echo  "Couldn't Validate Payment with Vmzarinpalzg "  ;
+	    echo  "Couldn't Validate Payment with Vmzarinpal ".$status  ;
 
 	  }
 
